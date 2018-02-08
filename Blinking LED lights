@@ -1,0 +1,21 @@
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD) #GPIOs are detected by physical location - board pin numbering is used
+
+#RGB LIGHTS
+GPIO.setup(11, GPIO.OUT)
+GPIO.setup(15, GPIO.OUT)
+GPIO.setup(18, GPIO.OUT)
+
+def blink(pin)
+  for x in range (0,21):  #Runs loop 20 times
+    GPIO.output(pin,1)  # led on
+    time.sleep(1)
+    GPIO.output(pin,0) # led off
+    time.sleep(1)
+return
+
+
+
+blink(11)

@@ -1,0 +1,88 @@
+#Blinking lights (my code)
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD) #GPIOs are detected by physical location - board pin numbering is used
+chan = [11, 15, 18]  #array of GPIO board pin numbers
+GPIO.setup(chan, GPIO.OUT)  #sends output to GPIO board pin 
+
+#RGB LIGHTS
+
+#0:00-0:02 
+def One():
+    GPIO.output(11,1) 
+
+#0:03-0:08 *
+def Two():
+    GPIO.setup(11, GPIO.OUT)
+
+    p = GPIO.PWM(11, 100)  # channel=12 frequency=50Hz
+    p.start(0)
+    
+    for dc in range(0, 101, 5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    for dc in range(100, -1, -5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    p.stop()
+
+#0:08-0:16
+def Three():
+    GPIO.output(11,1)
+    time.sleep(2)
+    GPIO.output(11,0)
+    GPIO.output(15,1)
+    time.sleep(2)
+    GPIO.output(15,0)
+    GPIO.output(18,1)
+    time.sleep(2)
+    GPIO.output(18,0)
+    
+
+#0:17-0:24
+def Four():
+    p = GPIO.PWM(11, 50)  # channel=11 frequency=50Hz --RED
+    p.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    for dc in range(50, -1, -5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    p.stop()
+
+    p = GPIO.PWM(15, 50)  # channel=11 frequency=50Hz -- GREEN
+    p.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    for dc in range(50, -1, -5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    p.stop()
+
+    p = GPIO.PWM(18, 50)  # channel=11 frequency=50Hz --BLUE
+    p.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    for dc in range(50, -1, -5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    p.stop()
+
+    p = GPIO.PWM(11, 50)  # channel=11 frequency=50Hz  #RED
+    p.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    for dc in range(50, -1, -5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    p.stop()

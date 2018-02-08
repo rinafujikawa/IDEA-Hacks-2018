@@ -1,0 +1,278 @@
+#Blinking lights (my code)
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD) #GPIOs are detected by physical location - board pin numbering is used
+chan = [11, 15, 18]  #array of GPIO board pin numbers
+GPIO.setup(chan, GPIO.OUT)  #sends output to GPIO board pin 
+
+#RGB LIGHTS
+
+#0:00-0:02 
+def One():
+    GPIO.output(11,1)
+    #time.sleep(0.2)
+    #GPIO.output(11,0)
+
+
+#0:03-0:08 *
+def Two():
+    GPIO.setup(11, GPIO.OUT)
+
+    p = GPIO.PWM(11, 100)  # channel=12 frequency=50Hz
+    p.start(0)
+
+    for x in range(0,3):   
+        for dc in range(0, 101, 15):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+        for dc in range(100, -1, -15):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+
+    p.stop()
+
+    GPIO.output(11,1)
+    time.sleep(1)
+    GPIO.output(11,0)
+
+#0:08-0:16
+def Three():
+    GPIO.output(11,1)
+    time.sleep(0.5)
+    GPIO.output(11,0)
+    GPIO.output(15,1)
+    time.sleep(0.5)
+    GPIO.output(15,0)
+    GPIO.output(18,1)
+    time.sleep(0.5)
+    GPIO.output(18,0)
+    
+#0:17-0:24
+def Four():
+    GPIO.output(11,1)
+    GPIO.output(15,1)
+    time.sleep(0.5)
+    GPIO.output(11,0)
+    GPIO.output(18,1)
+    time.sleep(0.5)
+    GPIO.output(15,0)
+    GPIO.output(11,1)
+    time.sleep(0.5)
+    GPIO.output(11,0)
+    GPIO.output(18,0)
+    time.sleep(0.25)
+
+
+#0:40-0:46 Fade
+
+def Five():
+
+    p = GPIO.PWM(11, 50)  # channel=11 frequency=50Hz --RED
+    q= GPIO.PWM(15,50)
+    p.start(0)
+    q.start(0)
+
+    for dc in range(0, 51, 15):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.5)
+    for dc in range(0,51,15):
+            q.ChangeDutyCycle(dc)
+            time.sleep(0.5)
+    for dc in range(50, -1, -15):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.5)  #stops at green
+    p.stop()
+    q.stop()
+    GPIO.output(15,1)#full green
+    time.sleep(0.1)
+    GPIO.output(15,0) #clears green 
+
+#0:47-0:51 Fade 
+def Six():
+    p = GPIO.PWM(11, 50)  # channel=11 frequency=50Hz --RED
+    q= GPIO.PWM(18,50)
+    p.start(0)
+    q.start(0)
+
+    for dc in range(0, 51, 15):
+            p.ChangeDutyCycle(dc)  #increments red
+            time.sleep(0.5)
+    for dc in range(0, 51, 15):
+            q.ChangeDutyCycle(dc) #increments blue to make magenta
+            time.sleep(0.5)
+    for dc in range(50, -1, -15):
+            p.ChangeDutyCycle(dc) #decrements red to go back to blue
+            time.sleep(0.5)
+    p.stop()
+    q.stop()
+    GPIO.output(18,1) #full blue 
+    time.sleep(0.1)
+    GPIO.output(18,0) #clears blue
+   
+
+
+ #0:52-0:53 - 321go!
+def Seven():
+    GPIO.output(11,1)
+    time.sleep(0.25)
+    GPIO.output(11,0)
+    GPIO.output(15,1)
+    time.sleep(0.25)
+    GPIO.output(15,0)
+    GPIO.output(18,1)
+    time.sleep(0.25)
+    GPIO.output(18,0)
+
+def SevenPointFive():
+    GPIO.output(11,1)
+    time.sleep(0.12)
+    GPIO.output(11,0)
+    GPIO.output(15,1)
+    time.sleep(0.12)
+    GPIO.output(15,0)
+    GPIO.output(18,1)
+    time.sleep(0.12)
+    GPIO.output(18,0)
+
+def THREETWOONEGO():
+    GPIO.output(18,1) #cyan on
+    GPIO.output(15,1) #cyan on
+    time.sleep(0.60)
+    GPIO.output(18,0) #cyan off
+    GPIO.output(15,0) #cyan off
+    GPIO.output(11,1) #orange on
+    GPIO.output(15,1) #orange on
+    time.sleep(0.60)
+    GPIO.output(11,0)#orange off
+    GPIO.output(15,0)#orange off
+    GPIO.output(18,1) #blue on
+    time.sleep(0.50)
+    GPIO.output(18,0) #blue off
+
+ #0:54-0:57 Blinks
+def Eight():
+    p = GPIO.PWM(15, 0.1)  # channel=11 frequency=50Hz --RED
+    p.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    for dc in range(50, -1, -5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    p.stop()
+
+
+#0:58-1:01 Fade
+def Nine():
+    p = GPIO.PWM(18, 50)  # channel=11 frequency=50Hz --RED
+    q= GPIO.PWM(15,50)
+    p.start(0)
+    q.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc)  #increments blue
+            time.sleep(0.5)
+    for dc in range(0,51,5):
+            q.ChangeDutyCycle(dc) #increments green to make cyan
+            time.sleep(0.5)
+    for dc in range(50, -1, -5):
+            p.ChangeDutyCycle(dc) #decrements blue to go back to green
+            time.sleep(0.5)
+    p.stop()
+    q.stop()
+    GPIO.output(15,1) #full green
+    time.sleep(0.1)
+    GPIO.output(18,0) #clears green
+   
+
+
+ #1:02-1:04 Blinks
+def Ten():
+    p = GPIO.PWM(18, 0.1)  # channel=11 frequency=50Hz --RED
+    p.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc) #increments blue
+            time.sleep(0.1)
+    for dc in range(50, -1, -5): #decrements blue to clear
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.1)
+    p.stop()
+    
+#1:05-1:09 Fade 
+
+def Eleven():
+    p = GPIO.PWM(11, 50)  # channel=11 frequency=50Hz --RED
+    q= GPIO.PWM(18,50)
+    p.start(0)
+    q.start(0)
+
+    for dc in range(0, 51, 5):
+            p.ChangeDutyCycle(dc)  #increments red
+            time.sleep(0.5)
+    for dc in range(0,51,5):
+            q.ChangeDutyCycle(dc) #increments blue to make magenta
+            time.sleep(0.5)
+    for dc in range(50, -1, -5):
+            p.ChangeDutyCycle(dc) #decrements red to go back to blue
+            time.sleep(0.5)
+    p.stop()
+    q.stop()
+    GPIO.output(18,1) #full blue 
+    time.sleep(0.1)
+    GPIO.output(18,0) #clears blue
+
+
+
+
+#Light Up 
+One()
+Two()
+Two()
+One()
+One()
+Three()
+Four()
+Three()
+Four()
+Three()
+Four()
+Three()
+Four()
+
+Five()
+Three()
+Six()
+Four()
+Five()
+Seven()
+Seven()
+Seven()
+Seven()
+Seven()
+Seven()
+Seven()
+SevenPointFive()
+SevenPointFive()
+SevenPointFive()
+SevenPointFive()
+THREETWOONEGO()
+Four()
+Three()
+Four()
+Three()
+Four()
+Three()
+Four()
+Three()
+Four()
+Three()
+Eight()
+Nine()
+Ten()
+#Eleven()
+
+GPIO.cleanup()
