@@ -1,5 +1,6 @@
 IDEA HACKS 2018 
-Team 42
+Team 42 
+Members (in alphabetical order of last name): Rina Fujikawa, Hardhik Lankalapalli, Pratyusha Majumder, Harish Nanduri, Andrew Yama
 Product: PartyPi 
 
 - LED Lights flash along with music (see attached code)
